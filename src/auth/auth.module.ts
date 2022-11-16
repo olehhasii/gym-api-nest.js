@@ -9,6 +9,7 @@ import { AuthController } from './auth.controller';
 import { UserService } from 'src/users/user.service';
 import { User, UserSchema } from 'src/users/schemas/user.schema';
 import { MongooseModule } from '@nestjs/mongoose';
+import { JwtStrategy } from './jwt.strategy';
 
 @Module({
   imports: [
@@ -16,11 +17,11 @@ import { MongooseModule } from '@nestjs/mongoose';
     PassportModule,
     JwtModule.register({
       secret: 'secretKey',
-      signOptions: { expiresIn: '60s' },
+      //signOptions: { expiresIn: '60s' },
     }),
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
   ],
-  providers: [AuthService, LocalStrategy, UserService],
+  providers: [AuthService, LocalStrategy, UserService, JwtStrategy],
   controllers: [AuthController],
   exports: [AuthService],
 })
