@@ -19,8 +19,8 @@ export class TrainingService {
     return await this.trainingModel.find().exec();
   }
 
-  async findUsersTrainings(): Promise<Training[]> {
-    return await this.trainingModel.find().exec();
+  async findUsersTrainings(userId): Promise<Training[]> {
+    return await this.trainingModel.find({ user_id: userId }).exec();
   }
 
   async createTraining(trainingDto: TrainingDto): Promise<Training> {

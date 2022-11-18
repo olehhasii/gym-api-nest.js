@@ -17,6 +17,14 @@ export class MealsService {
     private readonly httpService: HttpService,
   ) {}
 
+  async findMeal(id: string): Promise<MealDto> {
+    return await this.mealModel.findById(id);
+  }
+
+  async findUserMeals(userId): Promise<MealDto[]> {
+    return await this.mealModel.find({ user_id: userId }).exec();
+  }
+
   async createMeal(createMealDto: CreateMealDto, userId): Promise<MealDto> {
     const food = await makeFoodObject(createMealDto, this.httpService);
     const totalNutrient = calcTotalNutrientAmount(food);

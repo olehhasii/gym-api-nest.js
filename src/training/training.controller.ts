@@ -27,9 +27,9 @@ export class TrainingController {
 
   @UseGuards(JwtAuthGuard)
   @Get('/mytrainings')
-  async getUsersTrainings() {
-    console.log('no');
-    return await this.trainingService.findAllTrainings();
+  async getUsersTrainings(@Request() req) {
+    const userId = new mongoose.Types.ObjectId(req.user.userId);
+    return await this.trainingService.findUsersTrainings(userId);
   }
 
   @UseGuards(JwtAuthGuard)
