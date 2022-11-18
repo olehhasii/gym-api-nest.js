@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './users/user.module';
 import { ExerciseModule } from './exercise/exercise.module';
 import { TrainingModule } from './training/training.module';
+import { MealsModule } from './meals/meals.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { TrainingModule } from './training/training.module';
     AuthModule,
     ExerciseModule,
     TrainingModule,
+    MealsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
