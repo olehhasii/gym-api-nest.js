@@ -6,7 +6,11 @@ const getNutrient = (nutrientName, foodArray) => {
   ).value;
 };
 
-export const findFoodNutrion = async (foodName: string, httpService) => {
+export const findFoodNutrion = async (
+  foodName: string,
+  weight,
+  httpService,
+) => {
   const params = {
     api_key: 'hk0OfoSDAR8pghgodZN29ZUpjSXF07TMeZAihY8c',
     pagesize: 5,
@@ -18,10 +22,18 @@ export const findFoodNutrion = async (foodName: string, httpService) => {
 
   const foodObject = {
     name: foodName,
-    calories: getNutrient('Energy', food),
-    protein: getNutrient('Protein', food),
-    fat: getNutrient('Total lipid (fat)', food),
-    carbs: getNutrient('Carbohydrate, by difference', food),
+    calories:
+      Math.round((getNutrient('Energy', food) / 100) * weight * 100) / 100,
+    protein:
+      Math.round((getNutrient('Protein', food) / 100) * weight * 100) / 100,
+    fat:
+      Math.round(
+        (getNutrient('Total lipid (fat)', food) / 100) * weight * 100,
+      ) / 100,
+    carbs:
+      Math.round(
+        (getNutrient('Carbohydrate, by difference', food) / 100) * weight * 100,
+      ) / 100,
   };
 
   return foodObject;
@@ -31,11 +43,11 @@ export const makeFoodObject = async (meal: CreateMealDto, httpService) => {
   const food = meal.food;
   const foodResult = await Promise.all(
     food.map(async (food) => {
-      const result = await findFoodNutrion(food.name, httpService);
+      const result = await findFoodNutrion(food.name, food.weight, httpService);
       return result;
     }),
   );
-
+  console.log(foodResult);
   return foodResult;
 };
 
