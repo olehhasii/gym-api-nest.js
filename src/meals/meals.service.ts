@@ -27,6 +27,7 @@ export class MealsService {
 
   async createMeal(createMealDto: CreateMealDto, userId): Promise<MealDto> {
     const food = await makeFoodObject(createMealDto, this.httpService);
+    console.log(food);
     const totalNutrient = calcTotalNutrientAmount(food);
     const meal = {
       name: createMealDto.name,

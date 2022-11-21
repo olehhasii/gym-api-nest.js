@@ -47,23 +47,23 @@ export const makeFoodObject = async (meal: CreateMealDto, httpService) => {
       return result;
     }),
   );
-  console.log(foodResult);
   return foodResult;
 };
 
 export const calcTotalNutrientAmount = (food) => {
   const totalCalories = food.reduce((a, b) => {
-    return a['calories'] + b['calories'];
-  });
+    console.log(a);
+    return a + b['calories'];
+  }, 0);
   const totalProtein = food.reduce((a, b) => {
-    return a['protein'] + b['protein'];
-  });
+    return a + b['protein'];
+  }, 0);
   const totalFat = food.reduce((a, b) => {
-    return a['fat'] + b['fat'];
-  });
+    return a + b['fat'];
+  }, 0);
   const totalCarbs = food.reduce((a, b) => {
-    return a['carbs'] + b['carbs'];
-  });
+    return a + b['carbs'];
+  }, 0);
 
   const result = {
     totalCalories: Math.round(totalCalories * 100) / 100,
