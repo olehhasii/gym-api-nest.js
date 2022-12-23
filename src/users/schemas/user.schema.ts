@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
+import { UserParametersDto } from '../dto/userParameters.dto';
 
 export type UserDocument = HydratedDocument<User>;
 
@@ -10,6 +11,9 @@ export class User {
 
   @Prop({ required: true })
   username: string;
+
+  @Prop({ required: false })
+  parameters: UserParametersDto;
 
   @Prop({ required: true })
   password: string;

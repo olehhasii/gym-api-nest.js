@@ -52,7 +52,6 @@ export const makeFoodObject = async (meal: CreateMealDto, httpService) => {
 
 export const calcTotalNutrientAmount = (food) => {
   const totalCalories = food.reduce((a, b) => {
-    console.log(a);
     return a + b['calories'];
   }, 0);
   const totalProtein = food.reduce((a, b) => {
