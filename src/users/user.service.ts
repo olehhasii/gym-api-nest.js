@@ -6,7 +6,7 @@ import * as bcrypt from 'bcrypt';
 import { User, UserDocument } from './schemas/user.schema';
 import { CreateUserDto } from './dto/createUser.dto';
 import { UserParametersDto } from './dto/userParameters.dto';
-import { rmrCalculation } from 'src/helpers/rmr';
+import { macrosCalucaltion, rmrCalculation } from 'src/helpers/rmr';
 
 @Injectable()
 export class UserService {
@@ -39,8 +39,9 @@ export class UserService {
     id: string,
   ): Promise<User> {
     const userRMR = rmrCalculation(userParametersDto);
+    const macros = macrosCalucaltion(userRMR);
     return await this.userModel.findByIdAndUpdate(id, {
-      parameters: { ...userParametersDto, caloriesPerDay: userRMR },
+      parameters: { ...userParametersDto, macros: macros },
     });
   }
 }

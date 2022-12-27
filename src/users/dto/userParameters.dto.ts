@@ -1,3 +1,10 @@
+class UserMacrosDto {
+  caloriesPerDay: number;
+  carbs: number;
+  protein: number;
+  fats: number;
+}
+
 export class UserParametersDto {
   age: number;
   weight: number;
@@ -5,5 +12,5 @@ export class UserParametersDto {
   gender: string;
   activityLevel: string;
   goal: string;
-  caloriesPerDay?: number;
+  macros?: UserMacrosDto;
 }
