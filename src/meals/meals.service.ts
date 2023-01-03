@@ -9,11 +9,15 @@ import {
   calcTotalNutrientAmount,
   makeFoodObject,
 } from 'src/helpers/meals.helpers';
+import { DailyMacrosDto } from './dto/dailyMacros.dto';
+import { DailyMacros, DailyMacrosDocument } from './schemas/dailyMacros.schema';
 
 @Injectable()
 export class MealsService {
   constructor(
     @InjectModel(Meal.name) private mealModel: Model<MealDocument>,
+    @InjectModel(DailyMacros.name)
+    private dailyMacrosModel: Model<DailyMacrosDocument>,
     private readonly httpService: HttpService,
   ) {}
 
@@ -34,5 +38,19 @@ export class MealsService {
       ...totalNutrient,
     };
     return await new this.mealModel({ ...meal, user_id: userId }).save();
+  }
+
+  async createInitialDailyMacros(dailyMacrosDto: DailyMacrosDto, userId) {
+    return await new this.dailyMacrosModel({
+      ...dailyMacrosDto,
+      user_id: userId,
+    }).save();
+  }
+
+  async getDailyMacrosByDate(date: Date, user_id) {
+    return await this.dailyMacrosModel.findOne({
+      date: date,
+      user_id,
+    });
   }
 }
