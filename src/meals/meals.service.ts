@@ -4,12 +4,16 @@ import { Model } from 'mongoose';
 import { HttpService } from '@nestjs/axios';
 
 import { Meal, MealDocument } from './schemas/meal.schema';
-import { CreateMealDto, MealDto } from './dto/meal.dto';
+import { CreateFoodDto, CreateMealDto, MealDto } from './dto/meal.dto';
 import {
   calcTotalNutrientAmount,
   makeFoodObject,
 } from 'src/helpers/meals.helpers';
-import { DailyMacrosDto } from './dto/dailyMacros.dto';
+import {
+  AddProductsToMealDto,
+  DailyMacrosDto,
+  MealsDto,
+} from './dto/dailyMacros.dto';
 import { DailyMacros, DailyMacrosDocument } from './schemas/dailyMacros.schema';
 
 @Injectable()
@@ -29,7 +33,7 @@ export class MealsService {
     return await this.mealModel.find({ user_id: userId }).exec();
   }
 
-  async createMeal(createMealDto: CreateMealDto, userId): Promise<MealDto> {
+  /* async createMeal(createMealDto: CreateMealDto, userId): Promise<MealDto> {
     const food = await makeFoodObject(createMealDto, this.httpService);
     const totalNutrient = calcTotalNutrientAmount(food);
     const meal = {
@@ -38,7 +42,7 @@ export class MealsService {
       ...totalNutrient,
     };
     return await new this.mealModel({ ...meal, user_id: userId }).save();
-  }
+  } */
 
   async createInitialDailyMacros(dailyMacrosDto: DailyMacrosDto, userId) {
     return await new this.dailyMacrosModel({
@@ -52,5 +56,64 @@ export class MealsService {
       date: date,
       user_id,
     });
+  }
+
+  async addProductsToMeal(addProductsToMealDto: AddProductsToMealDto, user_id) {
+    const mealName = addProductsToMealDto.name;
+
+    const dailyMacros = await this.dailyMacrosModel.findOne({
+      user_id,
+      date: addProductsToMealDto.date,
+    });
+
+    const foodMacros = await makeFoodObject(
+      addProductsToMealDto.food,
+      this.httpService,
+    );
+
+    const foodDaily = [...dailyMacros.meals[mealName].food, ...foodMacros];
+
+    const totalNutrients = calcTotalNutrientAmount(foodDaily);
+
+    const meal = {
+      name: mealName,
+      food: foodDaily,
+      ...totalNutrients,
+    };
+
+    const calculateDailyNutrientsConsumed = (meals: MealsDto, nutrientName) => {
+      console.log(meals);
+      return Object.values(meals).reduce(
+        (sum, meal) => sum + meal[nutrientName],
+        0,
+      );
+    };
+
+    dailyMacros.meals[mealName] = meal;
+    dailyMacros.caloriesConsumed = calculateDailyNutrientsConsumed(
+      dailyMacros.meals,
+      'totalCalories',
+    );
+    dailyMacros.carbsConsumed = calculateDailyNutrientsConsumed(
+      dailyMacros.meals,
+      'totalCarbs',
+    );
+    dailyMacros.proteinConsumed = calculateDailyNutrientsConsumed(
+      dailyMacros.meals,
+      'totalProtein',
+    );
+    dailyMacros.fatsConsumed = calculateDailyNutrientsConsumed(
+      dailyMacros.meals,
+      'totalFats',
+    );
+
+    return await this.dailyMacrosModel.findOneAndUpdate(
+      {
+        user_id,
+        date: addProductsToMealDto.date,
+      },
+      dailyMacros,
+      { new: true },
+    );
   }
 }

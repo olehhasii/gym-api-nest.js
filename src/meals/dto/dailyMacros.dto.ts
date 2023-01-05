@@ -16,6 +16,13 @@ export class DailyMacrosDto {
   meals: MealsDto;
 }
 
-export class createDailyMacrosDto {
+export class FoodDto {
+  name: string;
+  weight: number;
+}
+
+export class AddProductsToMealDto {
   date: Date;
+  name: string;
+  food: FoodDto[];
 }

@@ -1,4 +1,4 @@
-import { CreateMealDto } from 'src/meals/dto/meal.dto';
+import { FoodDto } from 'src/meals/dto/dailyMacros.dto';
 
 const getNutrient = (nutrientName, foodArray) => {
   return foodArray.foodNutrients.find(
@@ -22,25 +22,18 @@ export const findFoodNutrion = async (
 
   const foodObject = {
     name: foodName,
-    calories:
-      Math.round((getNutrient('Energy', food) / 100) * weight * 100) / 100,
-    protein:
-      Math.round((getNutrient('Protein', food) / 100) * weight * 100) / 100,
-    fat:
-      Math.round(
-        (getNutrient('Total lipid (fat)', food) / 100) * weight * 100,
-      ) / 100,
-    carbs:
-      Math.round(
-        (getNutrient('Carbohydrate, by difference', food) / 100) * weight * 100,
-      ) / 100,
+    calories: Math.round((getNutrient('Energy', food) / 100) * weight),
+    protein: Math.round((getNutrient('Protein', food) / 100) * weight),
+    fat: Math.round((getNutrient('Total lipid (fat)', food) / 100) * weight),
+    carbs: Math.round(
+      (getNutrient('Carbohydrate, by difference', food) / 100) * weight,
+    ),
   };
 
   return foodObject;
 };
 
-export const makeFoodObject = async (meal: CreateMealDto, httpService) => {
-  const food = meal.food;
+export const makeFoodObject = async (food: FoodDto[], httpService) => {
   const foodResult = await Promise.all(
     food.map(async (food) => {
       const result = await findFoodNutrion(food.name, food.weight, httpService);
@@ -57,7 +50,7 @@ export const calcTotalNutrientAmount = (food) => {
   const totalProtein = food.reduce((a, b) => {
     return a + b['protein'];
   }, 0);
-  const totalFat = food.reduce((a, b) => {
+  const totalFats = food.reduce((a, b) => {
     return a + b['fat'];
   }, 0);
   const totalCarbs = food.reduce((a, b) => {
@@ -67,7 +60,7 @@ export const calcTotalNutrientAmount = (food) => {
   const result = {
     totalCalories: Math.round(totalCalories * 100) / 100,
     totalProtein: Math.round(totalProtein * 100) / 100,
-    totalFat: Math.round(totalFat * 100) / 100,
+    totalFats: Math.round(totalFats * 100) / 100,
     totalCarbs: Math.round(totalCarbs * 100) / 100,
   };
   return result;

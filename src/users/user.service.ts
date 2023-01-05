@@ -40,8 +40,12 @@ export class UserService {
   ): Promise<User> {
     const userRMR = rmrCalculation(userParametersDto);
     const macros = macrosCalucaltion(userRMR);
-    return await this.userModel.findByIdAndUpdate(id, {
-      parameters: { ...userParametersDto, macros: macros },
-    });
+    return await this.userModel.findByIdAndUpdate(
+      id,
+      {
+        parameters: { ...userParametersDto, macros: macros },
+      },
+      { new: true },
+    );
   }
 }

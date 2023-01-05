@@ -7,12 +7,13 @@ import {
   UseGuards,
   Request,
   Param,
+  Patch,
 } from '@nestjs/common';
 import { MealsService } from './meals.service';
-import { CreateMealDto } from './dto/meal.dto';
+import { CreateFoodDto, CreateMealDto } from './dto/meal.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import mongoose from 'mongoose';
-import { DailyMacrosDto } from './dto/dailyMacros.dto';
+import { AddProductsToMealDto, DailyMacrosDto } from './dto/dailyMacros.dto';
 
 @Controller('meals')
 export class MealsController {
@@ -31,12 +32,12 @@ export class MealsController {
     return await this.mealsService.findMeal(id);
   }
 
-  @UseGuards(JwtAuthGuard)
+  /* @UseGuards(JwtAuthGuard)
   @Post('/new')
   async createMeal(@Body() createMealDto: CreateMealDto, @Request() req) {
     const userId = new mongoose.Types.ObjectId(req.user.userId);
     return await this.mealsService.createMeal(createMealDto, userId);
-  }
+  } */
 
   @UseGuards(JwtAuthGuard)
   @Post('/initial')
@@ -56,5 +57,19 @@ export class MealsController {
   async getDailyMacros(@Param('date') date: Date, @Request() req) {
     const userId = new mongoose.Types.ObjectId(req.user.userId);
     return await this.mealsService.getDailyMacrosByDate(date, userId);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('/update-meal')
+  async addProductsToMeal(
+    @Body() addProductsToMealDto: AddProductsToMealDto,
+    @Request() req,
+  ) {
+    const userId = new mongoose.Types.ObjectId(req.user.userId);
+
+    return await this.mealsService.addProductsToMeal(
+      addProductsToMealDto,
+      userId,
+    );
   }
 }

@@ -33,7 +33,7 @@ export class UserController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Patch('/parameters')
+  @Patch('/user/add-parameters')
   async postUserParams(
     @Request() req,
     @Body() userParametersDto: UserParametersDto,
