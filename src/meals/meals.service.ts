@@ -15,6 +15,7 @@ import {
   MealsDto,
 } from './dto/dailyMacros.dto';
 import { DailyMacros, DailyMacrosDocument } from './schemas/dailyMacros.schema';
+import { roundTo1Decimal } from 'src/helpers/math';
 
 @Injectable()
 export class MealsService {
@@ -60,7 +61,7 @@ export class MealsService {
 
   async addProductsToMeal(addProductsToMealDto: AddProductsToMealDto, user_id) {
     const mealName = addProductsToMealDto.name;
-
+    console.log(addProductsToMealDto);
     const dailyMacros = await this.dailyMacrosModel.findOne({
       user_id,
       date: addProductsToMealDto.date,
@@ -83,9 +84,8 @@ export class MealsService {
 
     const calculateDailyNutrientsConsumed = (meals: MealsDto, nutrientName) => {
       console.log(meals);
-      return Object.values(meals).reduce(
-        (sum, meal) => sum + meal[nutrientName],
-        0,
+      return roundTo1Decimal(
+        Object.values(meals).reduce((sum, meal) => sum + meal[nutrientName], 0),
       );
     };
 

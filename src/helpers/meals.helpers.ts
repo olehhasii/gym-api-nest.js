@@ -1,4 +1,5 @@
 import { FoodDto } from 'src/meals/dto/dailyMacros.dto';
+import { roundTo1Decimal } from './math';
 
 const getNutrient = (nutrientName, foodArray) => {
   return foodArray.foodNutrients.find(
@@ -22,10 +23,12 @@ export const findFoodNutrion = async (
 
   const foodObject = {
     name: foodName,
-    calories: Math.round((getNutrient('Energy', food) / 100) * weight),
-    protein: Math.round((getNutrient('Protein', food) / 100) * weight),
-    fat: Math.round((getNutrient('Total lipid (fat)', food) / 100) * weight),
-    carbs: Math.round(
+    calories: roundTo1Decimal((getNutrient('Energy', food) / 100) * weight),
+    protein: roundTo1Decimal((getNutrient('Protein', food) / 100) * weight),
+    fat: roundTo1Decimal(
+      (getNutrient('Total lipid (fat)', food) / 100) * weight,
+    ),
+    carbs: roundTo1Decimal(
       (getNutrient('Carbohydrate, by difference', food) / 100) * weight,
     ),
   };
@@ -37,7 +40,7 @@ export const makeFoodObject = async (food: FoodDto[], httpService) => {
   const foodResult = await Promise.all(
     food.map(async (food) => {
       const result = await findFoodNutrion(food.name, food.weight, httpService);
-      return result;
+      return { ...result, weight: food.weight };
     }),
   );
   return foodResult;
@@ -58,10 +61,14 @@ export const calcTotalNutrientAmount = (food) => {
   }, 0);
 
   const result = {
-    totalCalories: Math.round(totalCalories * 100) / 100,
+    /* totalCalories: Math.round(totalCalories * 100) / 100,
     totalProtein: Math.round(totalProtein * 100) / 100,
     totalFats: Math.round(totalFats * 100) / 100,
-    totalCarbs: Math.round(totalCarbs * 100) / 100,
+    totalCarbs: Math.round(totalCarbs * 100) / 100, */
+    totalCalories: roundTo1Decimal(totalCalories),
+    totalProtein: roundTo1Decimal(totalProtein),
+    totalFats: roundTo1Decimal(totalFats),
+    totalCarbs: roundTo1Decimal(totalCarbs),
   };
   return result;
 };
