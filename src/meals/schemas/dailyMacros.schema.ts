@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
+
 import { User } from 'src/users/schemas/user.schema';
 import { MealsDto } from '../dto/dailyMacros.dto';
 

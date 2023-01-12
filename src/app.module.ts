@@ -9,6 +9,7 @@ import { UserModule } from './users/user.module';
 import { ExerciseModule } from './exercise/exercise.module';
 import { TrainingModule } from './training/training.module';
 import { MealsModule } from './meals/meals.module';
+import { ReportsNutritionModule } from './reports-nutrition/reports-nutrition.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { MealsModule } from './meals/meals.module';
     ExerciseModule,
     TrainingModule,
     MealsModule,
+    ReportsNutritionModule,
   ],
   controllers: [AppController],
   providers: [AppService],
