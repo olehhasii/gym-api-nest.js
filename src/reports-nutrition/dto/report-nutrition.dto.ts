@@ -1,18 +1,24 @@
-import { DailyMacrosDto } from 'src/meals/dto/dailyMacros.dto';
-
 export class ReportNutritionDto {
   timeLine: string;
   startDate: Date;
   endDate: Date;
-  daysMacros: DailyMacrosDto[];
+  daysMacros: DailyMacrosForReportDto[];
   totalCalories: number;
   totalCarbs: number;
   totalProtein: number;
-  totalFat: number;
+  totalFats: number;
 }
 
 export class CreateReportNutritionDto {
   timeLine: string;
   startDate: Date;
   endDate: Date;
+}
+
+export class DailyMacrosForReportDto {
+  date: Date;
+  caloriesConsumed: number;
+  carbsConsumed: number;
+  proteinConsumed: number;
+  fatsConsumed: number;
 }

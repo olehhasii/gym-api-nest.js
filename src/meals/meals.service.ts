@@ -4,7 +4,7 @@ import { Model } from 'mongoose';
 import { HttpService } from '@nestjs/axios';
 
 import { Meal, MealDocument } from './schemas/meal.schema';
-import { CreateFoodDto, CreateMealDto, MealDto } from './dto/meal.dto';
+import { MealDto } from './dto/meal.dto';
 import {
   calcTotalNutrientAmount,
   makeFoodObject,
@@ -61,7 +61,7 @@ export class MealsService {
 
   async addProductsToMeal(addProductsToMealDto: AddProductsToMealDto, user_id) {
     const mealName = addProductsToMealDto.name;
-    console.log(addProductsToMealDto);
+
     const dailyMacros = await this.dailyMacrosModel.findOne({
       user_id,
       date: addProductsToMealDto.date,
@@ -83,7 +83,6 @@ export class MealsService {
     };
 
     const calculateDailyNutrientsConsumed = (meals: MealsDto, nutrientName) => {
-      console.log(meals);
       return roundTo1Decimal(
         Object.values(meals).reduce((sum, meal) => sum + meal[nutrientName], 0),
       );

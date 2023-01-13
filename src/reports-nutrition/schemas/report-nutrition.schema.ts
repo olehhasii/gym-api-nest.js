@@ -1,8 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
 
-import { DailyMacrosDto } from 'src/meals/dto/dailyMacros.dto';
 import { User } from 'src/users/schemas/user.schema';
+import { DailyMacrosForReportDto } from '../dto/report-nutrition.dto';
 
 export type ReportNutritionDocument = HydratedDocument<ReportNutrition>;
 
@@ -18,7 +18,7 @@ export class ReportNutrition {
   endDate: Date;
 
   @Prop()
-  daysMacros: DailyMacrosDto[];
+  daysMacros: DailyMacrosForReportDto[];
 
   @Prop()
   totalCalories: number;
@@ -30,7 +30,7 @@ export class ReportNutrition {
   totalProtein: number;
 
   @Prop()
-  totalFat: number;
+  totalFats: number;
 
   @Prop({ type: mongoose.Types.ObjectId, ref: 'User' })
   user_id: User;

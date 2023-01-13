@@ -8,11 +8,16 @@ import {
   ReportNutrition,
   ReportNutritionSchema,
 } from './schemas/report-nutrition.schema';
+import {
+  DailyMacros,
+  DailyMacrosSchema,
+} from 'src/meals/schemas/dailyMacros.schema';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
       { name: ReportNutrition.name, schema: ReportNutritionSchema },
+      { name: DailyMacros.name, schema: DailyMacrosSchema },
     ]),
   ],
   providers: [ReportsNutritionService],

@@ -61,10 +61,29 @@ export const calcTotalNutrientAmount = (food) => {
   }, 0);
 
   const result = {
-    /* totalCalories: Math.round(totalCalories * 100) / 100,
-    totalProtein: Math.round(totalProtein * 100) / 100,
-    totalFats: Math.round(totalFats * 100) / 100,
-    totalCarbs: Math.round(totalCarbs * 100) / 100, */
+    totalCalories: roundTo1Decimal(totalCalories),
+    totalProtein: roundTo1Decimal(totalProtein),
+    totalFats: roundTo1Decimal(totalFats),
+    totalCarbs: roundTo1Decimal(totalCarbs),
+  };
+  return result;
+};
+
+export const calcTotalNutrientTimeLine = (days) => {
+  const totalCalories = days.reduce((a, b) => {
+    return a + b['caloriesConsumed'];
+  }, 0);
+  const totalProtein = days.reduce((a, b) => {
+    return a + b['carbsConsumed'];
+  }, 0);
+  const totalFats = days.reduce((a, b) => {
+    return a + b['proteinConsumed'];
+  }, 0);
+  const totalCarbs = days.reduce((a, b) => {
+    return a + b['fatsConsumed'];
+  }, 0);
+
+  const result = {
     totalCalories: roundTo1Decimal(totalCalories),
     totalProtein: roundTo1Decimal(totalProtein),
     totalFats: roundTo1Decimal(totalFats),
