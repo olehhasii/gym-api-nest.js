@@ -36,12 +36,8 @@ export class TrainingController {
   @Post('/new')
   async createTraining(@Body() trainingDto: TrainingDto, @Request() req) {
     const userId = new mongoose.Types.ObjectId(req.user.userId);
-    const exerciseIds = trainingDto.exercises.map(
-      (id) => new mongoose.Types.ObjectId(id),
-    );
     return await this.trainingService.createTraining({
       ...trainingDto,
-      exercises: exerciseIds,
       user_id: userId,
     });
   }

@@ -2,22 +2,23 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
 
 import { User } from 'src/users/schemas/user.schema';
+import { ExerciseDto } from '../dto/training.dto';
 
 export type TrainingDocument = HydratedDocument<Training>;
 
 @Schema()
 export class Training {
   @Prop({ required: true })
-  name: string;
+  workoutName: string;
 
-  @Prop({ required: true, type: mongoose.Types.ObjectId, ref: 'Exercise' })
-  exercises: mongoose.Types.ObjectId[];
-
-  @Prop({ required: false })
-  muscles: string[];
+  @Prop({ required: true })
+  exercises: ExerciseDto[];
 
   @Prop({ required: false })
-  days: string[];
+  muscleGroups: string[];
+
+  @Prop({ required: false })
+  daysOfWorkout: string[];
 
   @Prop({ type: mongoose.Types.ObjectId, ref: 'User' })
   user_id: User;

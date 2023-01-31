@@ -74,13 +74,13 @@ export const calcTotalNutrientTimeLine = (days) => {
     return a + b['caloriesConsumed'];
   }, 0);
   const totalProtein = days.reduce((a, b) => {
-    return a + b['carbsConsumed'];
-  }, 0);
-  const totalFats = days.reduce((a, b) => {
     return a + b['proteinConsumed'];
   }, 0);
-  const totalCarbs = days.reduce((a, b) => {
+  const totalFats = days.reduce((a, b) => {
     return a + b['fatsConsumed'];
+  }, 0);
+  const totalCarbs = days.reduce((a, b) => {
+    return a + b['carbsConsumed'];
   }, 0);
 
   const result = {
