@@ -10,6 +10,7 @@ import { ExerciseModule } from './exercise/exercise.module';
 import { TrainingModule } from './training/training.module';
 import { MealsModule } from './meals/meals.module';
 import { ReportsNutritionModule } from './reports-nutrition/reports-nutrition.module';
+import { TrainingSessionModule } from './training-session/training-session.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { ReportsNutritionModule } from './reports-nutrition/reports-nutrition.mo
     TrainingModule,
     MealsModule,
     ReportsNutritionModule,
+    TrainingSessionModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -27,10 +27,14 @@ export class TrainingService {
     return await new this.trainingModel({ ...trainingDto }).save();
   }
 
-  async updateTraining(id: string, updatedTrainingDto: UpdatedTrainingDto) {
+  async updateTraining(
+    id: string,
+    updatedTrainingDto: UpdatedTrainingDto,
+    user_id,
+  ) {
     const updatedTraining = await this.trainingModel.findByIdAndUpdate(
       { _id: id },
-      updatedTrainingDto,
+      { ...updatedTrainingDto, user_id },
       { new: true },
     );
 

@@ -43,12 +43,18 @@ export class TrainingController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Patch(':id')
+  @Patch('/update/:id')
   async updateTraining(
     @Param('id') id: string,
     @Body() updatedTrainingDto: UpdatedTrainingDto,
+    @Request() req,
   ) {
-    return await this.trainingService.updateTraining(id, updatedTrainingDto);
+    const userId = new mongoose.Types.ObjectId(req.user.userId);
+    return await this.trainingService.updateTraining(
+      id,
+      updatedTrainingDto,
+      userId,
+    );
   }
 
   @UseGuards(JwtAuthGuard)
