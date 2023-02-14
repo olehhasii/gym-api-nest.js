@@ -1,7 +1,20 @@
-import { Body, Controller, Put, Request, UseGuards, Get } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Put,
+  Request,
+  UseGuards,
+  Get,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import mongoose from 'mongoose';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { TrainingSessionDto } from './dto/training-session.dto';
+import { TrainingLogDto } from './dto/training-log.dto';
+import {
+  SessionExerciseDto,
+  TrainingSessionDto,
+} from './dto/training-session.dto';
 import { TrainingSessionService } from './training-session.service';
 
 @Controller('training-session')
@@ -27,6 +40,43 @@ export class TrainingSessionController {
   @Get('/get-session')
   async getUserCurrentTrainingSession(@Request() req) {
     return await this.trainingSessionService.getTrainingSession(
+      req.user.userId,
+    );
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('/set-active-exercise')
+  async updateActiveExercise(
+    @Request() req,
+    @Body()
+    activeExercise: SessionExerciseDto,
+  ) {
+    return await this.trainingSessionService.updateActiveExercise(
+      activeExercise,
+      req.user.userId,
+    );
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('/finish-exercise')
+  async saveFinishedExercise(
+    @Request() req,
+    @Body() finishedExercise: SessionExerciseDto,
+  ) {
+    return await this.trainingSessionService.postFinishedExercise(
+      finishedExercise,
+      req.user.userId,
+    );
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('/save-training-log')
+  async saveFinishedTraining(
+    @Request() req,
+    @Body() trainingLog: TrainingLogDto,
+  ) {
+    return await this.trainingSessionService.postTrainingLog(
+      trainingLog,
       req.user.userId,
     );
   }

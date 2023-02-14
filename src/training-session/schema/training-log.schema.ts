@@ -5,10 +5,10 @@ import { User } from 'src/users/schemas/user.schema';
 import { Training } from 'src/training/schema/training.schema';
 import { SessionExerciseDto } from '../dto/training-session.dto';
 
-export type TrainingSessionDocument = HydratedDocument<TrainingSession>;
+export type TrainingLogDocument = HydratedDocument<TrainingLog>;
 
 @Schema()
-export class TrainingSession {
+export class TrainingLog {
   @Prop()
   workoutName: string;
 
@@ -31,11 +31,10 @@ export class TrainingSession {
   timeWorkoutFinished: Date;
 
   @Prop()
-  activeExercise: SessionExerciseDto;
+  timePassed: number;
 
   @Prop({ type: mongoose.Types.ObjectId, ref: 'User' })
   user_id: User;
 }
 
-export const TrainingSessionSchema =
-  SchemaFactory.createForClass(TrainingSession);
+export const TrainingLogSchema = SchemaFactory.createForClass(TrainingLog);

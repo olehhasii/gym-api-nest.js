@@ -22,6 +22,7 @@ export class TrainingSessionDto {
   daysOfWorkout?: string[];
   exercises: SessionExerciseDto[];
   timeWorkoutWasStarted: Date;
+  timeWorkoutFinished: Date;
   activeExercise: SessionExerciseDto;
   user_id?: mongoose.Types.ObjectId;
 }

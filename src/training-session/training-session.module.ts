@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
+import { TrainingLog, TrainingLogSchema } from './schema/training-log.schema';
 
 import {
   TrainingSession,
@@ -12,6 +13,7 @@ import { TrainingSessionService } from './training-session.service';
   imports: [
     MongooseModule.forFeature([
       { name: TrainingSession.name, schema: TrainingSessionSchema },
+      { name: TrainingLog.name, schema: TrainingLogSchema },
     ]),
   ],
   controllers: [TrainingSessionController],
