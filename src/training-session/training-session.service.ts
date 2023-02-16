@@ -74,4 +74,12 @@ export class TrainingSessionService {
     await this.trainingSessionModel.findOneAndDelete(user_id);
     return await new this.trainingLogModel(trainingLog).save();
   }
+
+  async getAllTrainingLogs(user_id): Promise<TrainingLog[]> {
+    return await this.trainingLogModel.find({ user_id });
+  }
+
+  async getTrainingLog(id: string): Promise<TrainingLog> {
+    return await this.trainingLogModel.findById(id);
+  }
 }

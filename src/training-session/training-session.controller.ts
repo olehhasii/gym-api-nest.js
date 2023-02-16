@@ -7,6 +7,7 @@ import {
   Get,
   Patch,
   Post,
+  Param,
 } from '@nestjs/common';
 import mongoose from 'mongoose';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
@@ -79,5 +80,19 @@ export class TrainingSessionController {
       trainingLog,
       req.user.userId,
     );
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/logs')
+  async getUserTrainingHistory(@Request() req) {
+    return await this.trainingSessionService.getAllTrainingLogs(
+      req.user.userId,
+    );
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/log/:id')
+  async getTrainingLog(@Param('id') id: string) {
+    return await this.trainingSessionService.getTrainingLog(id);
   }
 }
