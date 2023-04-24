@@ -34,17 +34,6 @@ export class MealsService {
     return await this.mealModel.find({ user_id: userId }).exec();
   }
 
-  /* async createMeal(createMealDto: CreateMealDto, userId): Promise<MealDto> {
-    const food = await makeFoodObject(createMealDto, this.httpService);
-    const totalNutrient = calcTotalNutrientAmount(food);
-    const meal = {
-      name: createMealDto.name,
-      food: food,
-      ...totalNutrient,
-    };
-    return await new this.mealModel({ ...meal, user_id: userId }).save();
-  } */
-
   async createInitialDailyMacros(dailyMacrosDto: DailyMacrosDto, userId) {
     return await new this.dailyMacrosModel({
       ...dailyMacrosDto,
